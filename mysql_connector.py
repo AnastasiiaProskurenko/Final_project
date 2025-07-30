@@ -30,7 +30,7 @@ class DBConnector:
             password=os.getenv("PASSWORD"),
             database=os.getenv("DATABASE"),
             cursorclass=DictCursor,
-            autocommit=True,
+            # autocommit=True,
         )
     def close(self):
         if self.connection:
@@ -39,7 +39,7 @@ class DBConnector:
     def get_genres(self):
         query = """
         Select distinct c.name
-        from category as c
+                    from category as c
         join film_category as fc
         on c.category_id=fc.category_id
         """
@@ -65,13 +65,13 @@ class DBConnector:
 
 
     def search_film_name(self, name, offset=0, limit=10):
-        query="""
-        SELECT title, release_year
-        FROM film
-        Where title like %s
-        LIMIT %s OFFSET %s
-        """
         with self.connection.cursor() as cursor:
+            query="""
+            SELECT title, release_year
+            FROM film
+            Where title like %s
+            LIMIT %s OFFSET %s
+            """
             cursor.execute(query, (f"%{name.lower()}%", limit,offset))
             return cursor.fetchall()
 

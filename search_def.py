@@ -14,7 +14,12 @@ statistic=LogStats(logger)
 
 
 def search_film_name():
-    name = input("Enter movie title: ")
+    while True:
+        name = input("Enter movie title: ").strip()
+        if  not name:
+            print("Can not be empty.")
+            continue
+        break
     results = db.search_film_name(name)
     logger.log_search("by title", {"title": name}, len(results))
     paginate_results(results, ["title", "release_year"])
@@ -38,7 +43,7 @@ def search_film_year():
     paginate_results(results, ["title", "release_year"])
 
 
-def search_film_gerne():
+def search_film_genre():
     genres=db.get_genres()
     print_table([{"#": i+1, "Genre": g} for i, g in enumerate(genres)], ["#","Genre" ])
     try:
@@ -89,18 +94,18 @@ def search_film_years_range():
     logger.log_search("by year", {"from":year_from,"to":year_to}, len(results))
     paginate_results(results, ["title", "release_year"])
 
-def search_film_gerne_and_years():
+def search_film_genre_and_years():
     genres = db.get_genres_with_years()
     print("     Genre       |  Years")
     print("-"*84)
     for i, genre in enumerate(genres,1):
         print(f"{i:2} | {genre['genre']:<11} | {genre['year_from']} - {genre['year_to']}")
     try:
-        index=int(input("Choice genre number: "))-1
-        if  not (0<=index<len(genres)):
+        index_=int(input("Choice genre number: "))-1
+        if  not (0<=index_<len(genres)):
             print("Invalid genre selection.")
             return
-        genre=genres[index]["genre"]
+        genre=genres[index_]["genre"]
     except ValueError:
         print("Invalid input.")
         return
@@ -123,7 +128,7 @@ def search_film_gerne_and_years():
             print("Invalid year format.Please try again.")
 
     results = db.search_film_gerne_and_years(genre,year_from, year_to)
-    logger.log_search("by genre and years ", f"{genre}-{year_from}-{year_to}", len(results))
+    logger.log_search("by genre and years", {"genre":genre, "year_from":year_from, "year_to":year_to}, len(results))
     paginate_results(results, ["title", "release_year"])
 
 

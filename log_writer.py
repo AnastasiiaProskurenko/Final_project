@@ -11,15 +11,14 @@ class search_write:
         self.collection=self.db[os.getenv("MONGO_COLLECTION_NAME")]
 
 
-    def log_search(self, search_type, params:dict, results_count:int):
-        allowed_search_types = ["by title", "by year", "by gerne",
+    def log_search(self, search_type, params, results_count:int):
+        allowed_search_types = ["by title", "by year", "by genre",
                                 "by actor", "by years (from... to...)",
-                                "by gerne and years"]
+                                "by genre and years"]
         if search_type not in allowed_search_types:
             return
-
         log_entry={
-            "timestamp": datetime.now(),
+            "timestamp": datetime.now().isoformat(),
             "search_type": search_type,
             "params": params,
             "results_count": results_count

@@ -5,8 +5,8 @@ import sys
 
 def main_menu():
     search_type=[
-        ["1. by title","2. by year","3. by gerne"],
-        ["4. by actor","5. by years (from... to...)","6. by gerne and years"]
+        ["1. by title","2. by year","3. by genre"],
+        ["4. by actor","5. by years (from... to...)","6. by genre and years"]
     ]
 
     print("\b\t***    WELCOME TO US   ***\n\t\tMake your choice!\n")
@@ -58,13 +58,13 @@ def main():
         elif number_user_choice==2:
             search_film_year()
         elif number_user_choice==3:
-            search_film_gerne()
+            search_film_genre()
         elif number_user_choice==4:
             search_film_actor()
         elif number_user_choice==5:
             search_film_years_range()
         elif number_user_choice==6:
-            search_film_gerne_and_years()
+            search_film_genre_and_years()
         elif number_user_choice==7:
             while True:
                 user_choice_st=stat_menu()
